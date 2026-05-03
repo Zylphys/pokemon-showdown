@@ -17,7 +17,24 @@ New sections will be added to the bottom of the specified column.
 The column value will be ignored for repeat sections.
 */
 
-export const Formats: import('../sim/dex-formats').FormatList = [
+const natDexChampionsSinglesBans = [
+	'Arceus', 'Calyrex-Ice', 'Calyrex-Shadow', 'Deoxys-Attack', 'Dialga', 'Dialga-Origin', 'Eternatus',
+	'Giratina', 'Giratina-Origin', 'Groudon', 'Groudon-Primal', 'Ho-Oh', 'Koraidon', 'Kyogre',
+	'Kyogre-Primal', 'Kyurem-White', 'Lugia', 'Lunala', 'Mewtwo', 'Mewtwo-Mega-X', 'Mewtwo-Mega-Y',
+	'Miraidon', 'Necrozma-Dawn-Wings', 'Necrozma-Dusk-Mane', 'Necrozma-Ultra', 'Palkia', 'Palkia-Origin',
+	'Rayquaza', 'Rayquaza-Mega', 'Reshiram', 'Solgaleo', 'Xerneas', 'Yveltal', 'Zacian',
+	'Zacian-Crowned', 'Zekrom', 'Zygarde-Complete',
+	'Arena Trap', 'Moody', 'Power Construct', 'Shadow Tag', 'King\'s Rock', 'Quick Claw', 'Razor Fang',
+	'Assist', 'Baton Pass', 'Last Respects', 'Shed Tail',
+];
+
+const natDexChampionsDoublesBans = [
+	...natDexChampionsSinglesBans,
+	'Shedinja', 'Terapagos', 'Urshifu-Single-Strike', 'Urshifu-Rapid-Strike', 'Stakataka',
+	'Commander', 'Dark Void', 'Swagger',
+];
+
+const AllFormats: import('../sim/dex-formats').FormatList = [
 
 	// S/V Singles
 	///////////////////////////////////////////////////////////////////
@@ -307,6 +324,69 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		battle: { trunc: Math.trunc },
 		ruleset: ['Team Preview', 'Cancel Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 50'],
 	},
+	{
+		section: "NatDex Champions",
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Classic) OU",
+		mod: 'gen9natdexchampsclassic',
+		ruleset: ['Standard NatDex', 'Adjust Level = 100'],
+		banlist: natDexChampionsSinglesBans,
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Classic) Doubles",
+		mod: 'gen9natdexchampsclassic',
+		gameType: 'doubles',
+		ruleset: ['Standard Doubles', 'NatDex Mod', 'Evasion Abilities Clause', 'Adjust Level = 100'],
+		banlist: natDexChampionsDoublesBans,
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Modern) OU",
+		mod: 'gen9natdexchampsmodern',
+		ruleset: ['Standard NatDex', 'Adjust Level = 50'],
+		banlist: natDexChampionsSinglesBans,
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Modern) Doubles",
+		mod: 'gen9natdexchampsmodern',
+		gameType: 'doubles',
+		ruleset: ['Standard Doubles', 'NatDex Mod', 'Evasion Abilities Clause', 'Adjust Level = 50'],
+		banlist: natDexChampionsDoublesBans,
+	},
+	{
+		section: "Draft",
+		column: 1,
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Classic) Draft",
+		mod: 'gen9natdexchampsclassic',
+		searchShow: false,
+		itemClauseDefault: true,
+		ruleset: ['Standard Draft', 'NatDex Mod', 'Adjust Level = 100'],
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Classic) Doubles Draft",
+		mod: 'gen9natdexchampsclassic',
+		gameType: 'doubles',
+		searchShow: false,
+		itemClauseDefault: true,
+		ruleset: ['Standard Draft', 'NatDex Mod', '!Sleep Clause Mod', '!Evasion Clause', 'Adjust Level = 100'],
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Modern) Draft",
+		mod: 'gen9natdexchampsmodern',
+		searchShow: false,
+		itemClauseDefault: true,
+		ruleset: ['Standard Draft', 'NatDex Mod', 'Adjust Level = 50'],
+	},
+	{
+		name: "[Gen 9] NatDex Champions (Modern) Doubles Draft",
+		mod: 'gen9natdexchampsmodern',
+		gameType: 'doubles',
+		searchShow: false,
+		itemClauseDefault: true,
+		ruleset: ['Standard Draft', 'NatDex Mod', '!Sleep Clause Mod', '!Evasion Clause', 'Adjust Level = 50'],
+	},
 
 	// Unofficial Metagames
 	///////////////////////////////////////////////////////////////////
@@ -471,7 +551,7 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		gameType: 'doubles',
 		searchShow: false,
 		teraPreviewDefault: true,
-		ruleset: ['[Gen 9] 6v6 Doubles Draft', '+Unobtainable', '+Past', '!! Min Source Gen = 3'],
+		ruleset: ['Standard Draft', '!Sleep Clause Mod', '!Evasion Clause', '+Unobtainable', '+Past', 'Min Source Gen = 1'],
 	},
 	{
 		name: "[Gen 9] NatDex LC Draft",
@@ -5733,3 +5813,43 @@ export const Formats: import('../sim/dex-formats').FormatList = [
 		ruleset: ['HP Percentage Mod', 'Cancel Mod', 'Desync Clause Mod', 'Max Team Size = 24', 'Max Move Count = 24', 'Max Level = 9999', 'Default Level = 100'],
 	},
 ];
+
+type FormatListEntry = (typeof AllFormats)[number];
+const visibleFormatIds = new Set([
+	'gen9natdexchampionsclassicou',
+	'gen9natdexchampionsclassicdoubles',
+	'gen9natdexchampionsclassicdraft',
+	'gen9natdexchampionsclassicdoublesdraft',
+	'gen9natdexchampionsmodernou',
+	'gen9natdexchampionsmoderndoubles',
+	'gen9natdexchampionsmoderndraft',
+	'gen9natdexchampionsmoderndoublesdraft',
+]);
+
+const isSectionHeader = (format: FormatListEntry): format is {section: string; column?: number} => {
+	return 'section' in format && !('name' in format);
+};
+
+const formatId = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+const shouldShowNatDexChampionsFormat = (format: FormatListEntry) => {
+	return 'name' in format && visibleFormatIds.has(formatId(format.name));
+};
+
+const filteredFormats: import('../sim/dex-formats').FormatList = [];
+let pendingSection: {section: string; column?: number} | null = null;
+for (const format of AllFormats) {
+	if (isSectionHeader(format)) {
+		pendingSection = format;
+		continue;
+	}
+	if (shouldShowNatDexChampionsFormat(format)) {
+		if (pendingSection) {
+			filteredFormats.push(pendingSection);
+			pendingSection = null;
+		}
+		filteredFormats.push(format);
+	}
+}
+
+export const Formats: import('../sim/dex-formats').FormatList = filteredFormats;

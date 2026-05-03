@@ -9,6 +9,7 @@
 /server/chat-plugins/private.js
 /server/chat-plugins/*-private.js
 npm-debug.log
+local-server.*.log
 .eslintcache
 .eslintcache-no-types
 /tools/set-import/sets
